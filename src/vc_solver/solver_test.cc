@@ -27,7 +27,7 @@ void test_unweighted(const vector<pair<int, int> > &edges,
 }
 }  // namespace
 
-TEST(vc_above_lp, sample1) {
+TEST(solver, sample1) {
   vector<pair<int, int> > E {
     {1, 2}, {2, 3}, {3, 1}, {3, 4}, {3, 5}
   };
@@ -35,7 +35,7 @@ TEST(vc_above_lp, sample1) {
   test_unweighted(E, 6);
 }
 
-TEST(vc_above_lp, sample0) {
+TEST(solver, sample0) {
   vector<pair<int, int> > E {
     {1, 2}, {1, 3}, {2, 3}
   };
@@ -43,7 +43,7 @@ TEST(vc_above_lp, sample0) {
   test_unweighted(E, 4);
 }
 
-TEST(vc_above_lp, sample2) {
+TEST(solver, sample2) {
   vector<pair<int, int> > E {
     {1, 2}, {1, 3}, {2, 3}, {2, 4}, {3, 5}, {4, 5}, {4, 6}, {4, 7}, {5, 6}, {5, 7}
   };
@@ -51,8 +51,8 @@ TEST(vc_above_lp, sample2) {
   test_unweighted(E, 8);
 }
 
-TEST(vc_above_lp, random_unweighted) {
-  const int max_v = 20, max_e = 60, num_instances = 100;
+TEST(solver, random_unweighted) {
+  const int max_v = 16, max_e = 100, num_instances = 1000;
 
   rep (t, num_instances) {
     vector<pair<int, int>> e;
@@ -62,8 +62,8 @@ TEST(vc_above_lp, random_unweighted) {
   }
 }
 
-TEST(vc_above_lp, random_weighted_integer) {
-  const int max_v = 20, max_e = 60, max_w = 5, num_instances = 100;
+TEST(solver, random_weighted_integer) {
+  const int max_v = 16, max_e = 100, max_w = 5, num_instances = 1000;
 
   rep (t, num_instances) {
     vector<pair<int, int>> e;
@@ -74,8 +74,8 @@ TEST(vc_above_lp, random_weighted_integer) {
   }
 }
 
-TEST(vc_above_lp, random_weighted_non_integer) {
-  const int max_v = 20, max_e = 60, max_w = 5, num_instances = 100;
+TEST(solver, random_weighted_non_integer) {
+  const int max_v = 16, max_e = 100, num_instances = 1000;
 
   rep (t, num_instances) {
     vector<pair<int, int>> e;
