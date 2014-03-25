@@ -18,16 +18,16 @@ void instance::init(const vector<pair<int, int>> &original_edges,
   purified_es.erase(unique(all(purified_es)), purified_es.end());
 
   // Degree
-  deg_.assign(n_, 0);
+  vector<int> original_to_deg(n_, 0);
   for (const auto &e : purified_es) {
-    ++deg_[e.first];
-    ++deg_[e.second];
+    ++original_to_deg[e.first];
+    ++original_to_deg[e.second];
   }
 
   // Sort vertices by degree
   vector<int> original_to_new(n_);
   iota(all(original_to_new), 0);
-  sort(all(original_to_new), [&](int u, int v) { return deg_[u] > deg_[v]; });
+  sort(all(original_to_new), [&](int u, int v) { return original_to_deg[u] > original_to_deg[v]; });
   vector<int> new_to_original(n_);
   rep (ov, n_) new_to_original[original_to_new[ov]] = ov;
 
@@ -43,6 +43,9 @@ void instance::init(const vector<pair<int, int>> &original_edges,
 
   original_vs_.assign(n_, vector<int>(1));
   rep (nv, n_) original_vs_[nv][0] = new_to_original[nv];
+
+  deg_.resize(n_);
+  rep (nv, n_) deg_[nv] = adj_[nv].size();
 
   // Process self-loops
   for (int ov : self_loop_vs) {
@@ -89,6 +92,7 @@ void instance::revert(int revision) {
 //        flow_.revert(flow_edit_history_[i]);
 //        flow_edit_history_[i].clear();
         solution_weight_ -= weight_[i];
+        for (int u : adj_[i]) ++deg_[u];
       } else {
         assert(false);
       }
@@ -110,10 +114,12 @@ int instance::fix2(int i) {
     fixed_value_[i] = 2;
     graph_edit_history_.emplace_back(i, -1);
 
+
     //      assert(flow_edit_history_[i].empty());
     //      flow_.remove(i * 2, flow_edit_history_[i]);
     //      flow_.remove(i * 2 + 1, flow_edit_history_[i]);
     solution_weight_ += weight_[i];
+    for (int u : adj_[i]) --deg_[u];
   } else {
     assert(fixed_value_[i] == 2);
   }

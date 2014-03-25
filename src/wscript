@@ -15,6 +15,7 @@ def build(bld):
   bld.program(
     features     = 'gtest',
     source       = 'vc_solver/flow_network_test.cc \
+                    vc_solver/instance_test.cc \
                     vc_solver/solver_test.cc',
     target       = '../test',
     uselib       = 'common',
