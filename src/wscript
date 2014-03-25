@@ -8,6 +8,7 @@ def build(bld):
     source       = 'common.cc \
                     jlog.cc \
                     vc_solver/instance.cc \
+                    vc_solver/reducer.cc \
                     vc_solver/solver.cc \
                     vc_solver/flow_network.cc',
     target       = 'algorithm',
@@ -16,6 +17,7 @@ def build(bld):
     features     = 'gtest',
     source       = 'vc_solver/flow_network_test.cc \
                     vc_solver/instance_test.cc \
+                    vc_solver/reducer_test.cc \
                     vc_solver/solver_test.cc',
     target       = '../test',
     uselib       = 'common',

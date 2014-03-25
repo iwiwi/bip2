@@ -63,6 +63,11 @@ double solve_vc_naive(const vector<pair<int, int> > &edges,
 double solve_vc_naive(const vector<pair<int, int> > &edges,
                    const vector<double> &weight);
 
+namespace vc_solver {
+class instance;
+}
+double solve_vc_naive(vc_solver::instance &i, vector<int> &vc);
+
 int generate_random_graph(int max_v, int max_e, vector<pair<int, int>> &edges);
 
 void generate_random_weight_integer(int num_v, int max_w, vector<double> &weight);

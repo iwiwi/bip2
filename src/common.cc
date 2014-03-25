@@ -1,4 +1,5 @@
 #include "common.h"
+#include "vc_solver/instance.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Load
@@ -178,6 +179,24 @@ double solve_vc_naive(const vector<pair<int, int> > &edges,
                    const vector<double> &weight) {
   vector<int> vc;
   return solve_vc_naive(edges, weight, vc);
+}
+
+double solve_vc_naive(vc_solver::instance &i, vector<int> &vc) {
+  rep (v, i.n()) {
+    if (i.value(v) == 1) {
+      int r = i.revision();
+      vector<int> vc0, vc2;
+      i.fix(v, 0);
+      double w0 = solve_vc_naive(i, vc0);
+      i.revert(r);
+      i.fix(v, 2);
+      double w2 = solve_vc_naive(i, vc2);
+      i.revert(r);
+      vc = w0 < w2 ? vc0 : vc2;
+      return min(w0, w2);
+    }
+  }
+  return i.solution(vc);
 }
 
 int generate_random_graph(int max_v, int max_e,
