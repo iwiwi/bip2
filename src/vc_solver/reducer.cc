@@ -6,12 +6,15 @@ void reducer::reduce() {
 }
 
 void reducer::reduce_degree1() {
+  if (!i_.is_unweighted()) return;  // TODO;
+
   queue<int> que;
   rep (v, n()) {
     if (value(v) == 1 && degree(v) <= 1) {
       que.push(v);
     }
   }
+
   while (!que.empty()) {
     int v = que.front();
     que.pop();

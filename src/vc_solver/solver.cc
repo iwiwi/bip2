@@ -11,15 +11,18 @@ double solver::solve(const vector<pair<int, int> >& edges,
   i_.flow().maximize_dinic();
   double lp = i_.flow().value() / 2.0;
 
-//  r_.reduce();
+  r_.reduce();
   dfs();
 
   vc = best_solution_;
+
   return best_solution_weight_;
 }
 
 void solver::dfs() {
+  r_.reduce();
   i_.flow().maximize_ff();
+
   double lp = i_.solution_weight() + i_.flow().value() / 2.0;
   if (lp >= best_solution_weight_) return;
 

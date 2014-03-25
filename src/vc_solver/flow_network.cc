@@ -6,8 +6,8 @@ void flow_network::construct(const vector<pair<int, int>> &edges,
   int n = weight.size();
 
   V = n * 2 + 2;
-  S = 0; // n * 2;
-  T = 1; // n * 2 + 1;
+  S = 0;
+  T = 1;
   F = 0;
   adj.assign(V, vector<e_t>());
 
