@@ -15,13 +15,13 @@ void flow_network::construct(const vector<pair<int, int>> &edges,
   ff_vis_.assign(V, -1);
 
   rep (i, n) {
-    add_edge(S, i * 2, weight[i]);
-    add_edge(i * 2 + 1, T, weight[i]);
+    add_edge(S, lefv(i), weight[i]);
+    add_edge(rigv(i), T, weight[i]);
   }
   rep (i, edges.size()) {
     int a = edges[i].first, b = edges[i].second;
-    add_edge(a * 2, b * 2 + 1, INF_DOUBLE);
-    add_edge(b * 2, a * 2 + 1, INF_DOUBLE);
+    add_edge(lefv(a), rigv(b), INF_DOUBLE);
+    add_edge(lefv(b), rigv(a), INF_DOUBLE);
   }
 }
 
@@ -128,9 +128,9 @@ double flow_network::cancel(int v) {
   return f1;
 }
 
-double flow_network::remove(int i, vector<eh_t> &edit_history) {
+double flow_network::remove(int k, vector<eh_t> &edit_history) {
   double f = 0.0;
-  for (int v : {lefv(i), rigv(i)}) {
+  for (int v : {lefv(k), rigv(k)}) {
     f += cancel(v);
     rep (i, adj[v].size()) {
       e_t &e = adj[v][i];
@@ -147,7 +147,7 @@ double flow_network::remove(int i, vector<eh_t> &edit_history) {
 
 void flow_network::revert(const vector<eh_t> &edit_history) {
   for (const eh_t &eh : edit_history) {
-    assert(adj[eh.v][eh.i].cap == 0);
+    assert(adj[eh.v][eh.i].cap < EPS_DOUBLE);
     adj[eh.v][eh.i].cap = eh.cap;
   }
 }

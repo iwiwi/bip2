@@ -12,7 +12,8 @@ void instance::init(const vector<pair<int, int>> &original_edges,
   vector<pair<int, int>> purified_es;
   for (const auto &e : original_edges) {
     if (e.first == e.second) self_loop_vs.push_back(e.first);
-    else purified_es.emplace_back(e);
+    else purified_es.emplace_back(min(e.first, e.second),
+                                  max(e.first, e.second));
   }
   sort(all(purified_es));
   purified_es.erase(unique(all(purified_es)), purified_es.end());
@@ -56,6 +57,15 @@ void instance::init(const vector<pair<int, int>> &original_edges,
   fixed_count_.assign(n_, 0);
   fixed_value_.resize(n_);
   graph_edit_history_.clear();
+  {
+    vector<pair<int, int>> new_edges(purified_es.size());
+    rep (i, purified_es.size()) {
+      new_edges[i].first  = original_to_new[purified_es[i].first ];
+      new_edges[i].second = original_to_new[purified_es[i].second];
+    }
+    flow_.construct(new_edges, weight_);
+    flow_edit_history_.assign(n_, vector<flow_network::eh_t>());
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -89,8 +99,8 @@ void instance::revert(int revision) {
       if (fixed_value_[i] == 0) {
         // Yes, we ignore here
       } else if (fixed_value_[i] == 2) {
-//        flow_.revert(flow_edit_history_[i]);
-//        flow_edit_history_[i].clear();
+        flow_.revert(flow_edit_history_[i]);
+        flow_edit_history_[i].clear();
         solution_weight_ -= weight_[i];
         for (int u : adj_[i]) ++deg_[u];
       } else {
@@ -115,9 +125,8 @@ int instance::fix2(int i) {
     graph_edit_history_.emplace_back(i, -1);
 
 
-    //      assert(flow_edit_history_[i].empty());
-    //      flow_.remove(i * 2, flow_edit_history_[i]);
-    //      flow_.remove(i * 2 + 1, flow_edit_history_[i]);
+    assert(flow_edit_history_[i].empty());
+    flow_.remove(i, flow_edit_history_[i]);
     solution_weight_ += weight_[i];
     for (int u : adj_[i]) --deg_[u];
   } else {

@@ -20,7 +20,7 @@ class flow_network {
   // Max-flow: returns increase
   double maximize_dinic();
   double maximize_ff();  // Ford-Fulkerson
-  double flow() { return F; }
+  double value() { return F; }
 
   // Operations: returns decrease
   double remove(int i, vector<eh_t> &edit_history);
@@ -54,7 +54,6 @@ class flow_network {
   int layer(int v) {
     return v == S ? 0 : v == T ? 3 : v % 2 == 0 ? 1 : 2;
   }
-
 
   int ff_id_;
   vector<int> ff_vis_;

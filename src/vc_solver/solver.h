@@ -3,18 +3,19 @@
 
 #include "common.h"
 #include "instance.h"
+#include "reducer.h"
 
 namespace vc_solver {
 class solver {
  public:
-  solver();
+  solver() : i_(), r_(i_) {};
 
   double solve(const vector<pair<int, int> > &edges,
                const vector<double> &weight, vector<int> &vc);
 
  private:
-  static const double INF;
   instance i_;
+  reducer r_;
 
   double best_solution_weight_;
   vector<int> best_solution_;

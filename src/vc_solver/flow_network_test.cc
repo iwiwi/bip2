@@ -23,8 +23,8 @@ TEST(flow_network, maximize) {
     double f1 = fn1.maximize_ff();
     double f2 = fn2.maximize_dinic();
     ASSERT_EQ_DOUBLE(f1, f2);
-    ASSERT_EQ_DOUBLE(f1, fn1.flow());
-    ASSERT_EQ_DOUBLE(f2, fn2.flow());
+    ASSERT_EQ_DOUBLE(f1, fn1.value());
+    ASSERT_EQ_DOUBLE(f2, fn2.value());
   }
 }
 
@@ -40,16 +40,16 @@ TEST(flow_network, remove) {
     flow_network fn1;
     fn1.construct(e, w);
     double f0 = fn1.maximize_dinic(), f = f0;
-    ASSERT_EQ_DOUBLE(f0, fn1.flow());
+    ASSERT_EQ_DOUBLE(f0, fn1.value());
 
     rep (v, num_vs) {
       vector<flow_network::eh_t> eh;
       double d1 = fn1.remove(v, eh);
       f -= d1;
-      ASSERT_EQ_DOUBLE(f, fn1.flow());
+      ASSERT_EQ_DOUBLE(f, fn1.value());
       double d2 = fn1.maximize_ff();
       f += d2;
-      ASSERT_EQ_DOUBLE(f, fn1.flow());
+      ASSERT_EQ_DOUBLE(f, fn1.value());
 
       // Construct a network without |v| from scratch
       {
@@ -58,7 +58,7 @@ TEST(flow_network, remove) {
         fn2.construct(e, w);
         fn2.remove(v, eh2);
         fn2.maximize_dinic();
-        ASSERT_EQ_DOUBLE(fn1.flow(), fn2.flow());
+        ASSERT_EQ_DOUBLE(fn1.value(), fn2.value());
       }
 
       fn1.revert(eh);

@@ -4,7 +4,7 @@
 
 namespace {
 void ASSERT_EQ_DOUBLE(double a, double b) {
-  ASSERT_TRUE(fabs(b - a) < 1E-9);
+  ASSERT_TRUE(fabs(b - a) < 1E-9) << a << " vs " << b;
 }
 
 void test(const vector<pair<int, int> > &edges,

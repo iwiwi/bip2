@@ -2,6 +2,7 @@
 #define VC_INSTANCE_H_
 
 #include "common.h"
+#include "flow_network.h"
 
 namespace vc_solver {
 class instance {
@@ -9,6 +10,7 @@ class instance {
   void init(const vector<pair<int, int>> &edges,
             const vector<double> &weight);
   bool is_unweighted() { return unweighted_; }
+  flow_network &flow() { return flow_; }
 
   // Graph
   int n() { return n_; }
@@ -31,6 +33,9 @@ class instance {
   int fix(int v, int val);
 
  private:
+  // Flow
+  flow_network flow_;
+
   // Graph
   int original_n_;
   bool unweighted_;
@@ -50,6 +55,7 @@ class instance {
   // * (u, -1) --- Fixing or creating vertex |u|
   // * (u, v)  --- Creating edge (u, v)
   vector<pair<int, int>> graph_edit_history_;
+  vector<vector<flow_network::eh_t>> flow_edit_history_;
 
   // Operations
   int fix0(int v);
