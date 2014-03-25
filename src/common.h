@@ -68,6 +68,9 @@ int generate_random_graph(int max_v, int max_e, vector<pair<int, int>> &edges);
 void generate_random_weight_integer(int num_v, int max_w, vector<double> &weight);
 void generate_random_weight_non_integer(int num_v, vector<double> &weight);
 
+bool is_vc(int num_vs, const vector<pair<int, int> > &edges,
+           const vector<int> &vc);
+
 ///////////////////////////////////////////////////////////////////////////////
 // Macro for statistics
 ///////////////////////////////////////////////////////////////////////////////

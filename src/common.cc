@@ -207,6 +207,19 @@ void generate_random_weight_non_integer(int num_v, vector<double> &weight) {
   rep (i, num_v) weight[i] = (1.0 + rand()) / (double)RAND_MAX;
 }
 
+bool is_vc(int num_vs,
+           const vector<pair<int, int> > &edges,
+           const vector<int> &vc) {
+  vector<bool> b(num_vs, false);
+  for (int v : vc) b[v] = true;
+  for (const auto &e : edges) {
+    if (!b[e.first] && !b[e.second]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Macro for statistics
 ///////////////////////////////////////////////////////////////////////////////

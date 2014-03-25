@@ -19,6 +19,8 @@ void test(const vector<pair<int, int> > &edges,
   double sum = 0;
   for (int v : vc) sum += weight[v];
   ASSERT_EQ_DOUBLE(ans, sum);
+
+  is_vc(weight.size(), edges, vc);
 }
 
 void test_unweighted(const vector<pair<int, int> > &edges,
