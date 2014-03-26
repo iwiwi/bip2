@@ -21,6 +21,12 @@ struct reducer_controller_satellite {
   }
 };
 
+struct reducer_controller_unconfined {
+  static void reduce(reducer &r) {
+    r.reduce_unconfined();
+  }
+};
+
 struct reducer_controller_emc {
   static void reduce(reducer &r) {
     r.reduce_emc();

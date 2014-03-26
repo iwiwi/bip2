@@ -6,12 +6,12 @@ double solver::solve(const vector<pair<int, int> >& edges,
   i_.init(edges, weight);
   best_solution_.clear();
   best_solution_weight_ = INF_DOUBLE;
-  if (false && components());
+  if (components());
   else {
     printf("%*sSOLVE: %d %d\n", depth_, "", n(), (int)edges.size());
-    r_.reduce_without_flow();
-    i_.flow().maximize_dinic();
-    dfs();
+    JLOG_PUT_BENCHMARK("time.reduce") r_.reduce_without_flow();
+    JLOG_PUT_BENCHMARK("time.flow") i_.flow().maximize_dinic();
+    JLOG_PUT_BENCHMARK("time.search") dfs();
   }
 
   vc = best_solution_;
@@ -130,9 +130,9 @@ bool solver::components() {
 
   int hoge = 0;
   rep (i, num_ccs) hoge += cc_vs[i].size();
-  assert(hoge < n());
+  assert(hoge <= n());
 
-  solver s(depth_);
+  solver s(depth_ + 1);
   rep (k, num_ccs) {
     const vector<int> &vs = cc_vs[cc_ord[k]];
     const vector<pair<int, int>> &es = cc_es[cc_ord[k]];

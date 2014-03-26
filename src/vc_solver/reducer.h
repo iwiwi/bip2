@@ -15,6 +15,7 @@ class reducer {
   void reduce_emc();
   void reduce_degree1();
   void reduce_satellite();
+  void reduce_unconfined();
 
  private:
   instance &i_;

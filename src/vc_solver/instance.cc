@@ -48,11 +48,6 @@ void instance::init(const vector<pair<int, int>> &original_edges,
   deg_.resize(n_);
   rep (nv, n_) deg_[nv] = adj_[nv].size();
 
-  // Process self-loops
-  for (int ov : self_loop_vs) {
-    fix(original_to_new[ov], 2);
-  }
-
   // Prepare
   fixed_count_.assign(n_, 0);
   fixed_value_.resize(n_);
@@ -66,6 +61,11 @@ void instance::init(const vector<pair<int, int>> &original_edges,
     }
     flow_.construct(new_edges, weight_);
     flow_edit_history_.assign(n_, vector<flow_network::eh_t>());
+  }
+
+  // Process self-loops
+  for (int ov : self_loop_vs) {
+    fix(original_to_new[ov], 2);
   }
 }
 
