@@ -6,7 +6,14 @@ double bounder::lower_bound() {
 }
 
 double bounder::lower_bound_flow() {
-  return i_.solution_weight() + i_.flow().value() / 2.0;
+  if (!i_.is_unweighted()) {
+    // Standard LP lower bound
+    return i_.solution_weight() + i_.flow().value() / 2.0;
+  }
+  else {
+    // TODO: Cycle-cover-based lower bound
+    return i_.solution_weight() + i_.flow().value() / 2.0;
+  }
 }
 
 double bounder::lower_bound_clique() {

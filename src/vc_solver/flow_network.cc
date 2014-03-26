@@ -9,7 +9,7 @@ void flow_network::construct(const vector<pair<int, int>> &edges,
   S = 0;
   T = 1;
   F = 0;
-  adj.assign(V, vector<e_t>());
+  adj_.assign(V, vector<edge_t>());
 
   ff_id_ = 0;
   ff_vis_.assign(V, -1);
@@ -28,7 +28,7 @@ void flow_network::construct(const vector<pair<int, int>> &edges,
 double flow_network::ff_augment(int v, double f) {
   if (v == T || f < EPS_DOUBLE) return f;
   ff_vis_[v] = ff_id_;
-  for (e_t &e : adj[v]) {
+  for (edge_t &e : adj_[v]) {
     if (ff_vis_[e.to] == ff_id_ || e.cap < EPS_DOUBLE) continue;
     double t = ff_augment(e.to, min(f, e.cap));
     if (t > EPS_DOUBLE) {
@@ -57,8 +57,8 @@ bool flow_network::dinic_levelize() {
   while (!que.empty()) {
     int v = que.front();
     que.pop();
-    rep (i, adj[v].size()) {
-      e_t &e = adj[v][i];
+    rep (i, adj_[v].size()) {
+      edge_t &e = adj_[v][i];
       if (e.cap < EPS_DOUBLE || dinic_level_[e.to] != -1) continue;
       dinic_level_[e.to] = dinic_level_[v] + 1;
       que.push(e.to);
@@ -69,8 +69,8 @@ bool flow_network::dinic_levelize() {
 
 double flow_network::dinic_augment(int v, double f) {
   if (v == T || f < EPS_DOUBLE) return f;
-  for (; dinic_done_[v] < (int)adj[v].size(); dinic_done_[v]++) {
-    e_t &e = adj[v][dinic_done_[v]];
+  for (; dinic_done_[v] < (int)adj_[v].size(); dinic_done_[v]++) {
+    edge_t &e = adj_[v][dinic_done_[v]];
     if (dinic_level_[e.to] <= dinic_level_[v]) continue;
     double t = dinic_augment(e.to, min(f, e.cap));
     if (t > EPS_DOUBLE) {
@@ -94,10 +94,21 @@ double flow_network::maximize_dinic() {
   return f;
 }
 
+int flow_network::matching_out(int i) {
+  for (const flow_network::edge_t &e : adj_[lefv(i)]) {
+    if (e.to == S) continue;
+    const edge_t &r = rev(e);
+    if (r.cap > 0) {
+      return e.to / 2;
+    }
+  }
+  assert(false);
+}
+
 double flow_network::cancel_forward(int v, double f) {
   if (v == T || f < EPS_DOUBLE) return f;
   double c = 0;
-  for (e_t &e : adj[v]) {
+  for (edge_t &e : adj_[v]) {
     if (layer(e.to) <= layer(v)) continue;
     double t = cancel_forward(e.to, min(f - c, rev(e).cap));
     e.cap += t;
@@ -110,7 +121,7 @@ double flow_network::cancel_forward(int v, double f) {
 double flow_network::cancel_backward(int v, double f) {
   if (v == S || f < EPS_DOUBLE) return f;
   double c = 0;
-  for (e_t &e : adj[v]) {
+  for (edge_t &e : adj_[v]) {
     if (layer(e.to) >= layer(v)) continue;
     double t = cancel_backward(e.to, min(f - c, e.cap));
     e.cap -= t;
@@ -132,9 +143,9 @@ double flow_network::remove(int k, vector<eh_t> &edit_history) {
   double f = 0.0;
   for (int v : {lefv(k), rigv(k)}) {
     f += cancel(v);
-    rep (i, adj[v].size()) {
-      e_t &e = adj[v][i];
-      e_t &r = rev(e);
+    rep (i, adj_[v].size()) {
+      edge_t &e = adj_[v][i];
+      edge_t &r = rev(e);
       if (r.cap > EPS_DOUBLE) {
         assert(e.cap < EPS_DOUBLE);
         edit_history.emplace_back(e.to, e.rev, r.cap);
@@ -147,8 +158,8 @@ double flow_network::remove(int k, vector<eh_t> &edit_history) {
 
 void flow_network::revert(const vector<eh_t> &edit_history) {
   for (const eh_t &eh : edit_history) {
-    assert(adj[eh.v][eh.i].cap < EPS_DOUBLE);
-    adj[eh.v][eh.i].cap = eh.cap;
+    assert(adj_[eh.v][eh.i].cap < EPS_DOUBLE);
+    adj_[eh.v][eh.i].cap = eh.cap;
   }
 }
 
@@ -156,7 +167,7 @@ void flow_network::revert(const vector<eh_t> &edit_history) {
 void flow_network::print() {
   rep (v, V) {
     printf("%d:", v);
-    for (auto e : adj[v]) printf(e.cap ? " %d[%f]" : " (%d)", e.to, e.cap);
+    for (auto e : adj_[v]) printf(e.cap ? " %d[%f]" : " (%d)", e.to, e.cap);
     puts("");
   }
   puts("");

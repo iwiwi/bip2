@@ -10,6 +10,7 @@ def build(bld):
                     vc_solver/instance.cc \
                     vc_solver/reducer.cc \
                     vc_solver/bounder.cc \
+                    vc_solver/extreme_min_cut.cc \
                     vc_solver/solver.cc \
                     vc_solver/flow_network.cc',
     target       = 'algorithm',

@@ -4,9 +4,20 @@
 #include "common.h"
 
 namespace vc_solver {
+class extreme_min_cut;
+
 // This class represents the 4-layer flow network
 class flow_network {
+  friend class extreme_min_cut;
+
  public:
+  struct edge_t {
+    int to;
+    double cap;
+    int rev;
+    edge_t(int t, double c, int r) : to(t), cap(c), rev(r) {}
+  };
+
   // Edge edit history
   struct eh_t {
     int v, i;
@@ -22,6 +33,9 @@ class flow_network {
   double maximize_ff();  // Ford-Fulkerson
   double value() { return F; }
 
+  // Matching (for unweighted instances)
+  int matching_out(int i);
+
   // Operations: returns decrease
   double remove(int i, vector<eh_t> &edit_history);
   void revert(const vector<eh_t> &edit_history);
@@ -31,23 +45,17 @@ class flow_network {
 
  private:
   // Network
-  struct e_t {
-    int to;
-    double cap;
-    int rev;
-    e_t(int t, double c, int r) : to(t), cap(c), rev(r) {}
-  };
 
   int V, S, T;
   double F;
-  vector<vector<e_t> > adj;
+  vector<vector<edge_t> > adj_;
 
   void add_edge(int u, int v, double c) {
-    adj[u].emplace_back(v, c, adj[v].size());
-    adj[v].emplace_back(u, 0, adj[u].size() - 1);
+    adj_[u].emplace_back(v, c, adj_[v].size());
+    adj_[v].emplace_back(u, 0, adj_[u].size() - 1);
   }
 
-  e_t &rev(const e_t &e) { return adj[e.to][e.rev]; }
+  edge_t &rev(const edge_t &e) { return adj_[e.to][e.rev]; }
   int lefv(int i) { return 2 + i * 2; }
   int rigv(int i) { return 2 + i * 2 + 1; }
 

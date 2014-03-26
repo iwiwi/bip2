@@ -2,17 +2,20 @@
 #define VC_SOLVER_REDUCER_H_
 
 #include "instance.h"
+#include "extreme_min_cut.h"
 
 namespace vc_solver {
 class reducer {
  public:
-  reducer(instance &i) : i_(i) {}
+  reducer(instance &i) : i_(i), emc_(i.flow()) {}
 
   void reduce();
   void reduce_degree1();
+  void reduce_emc();
 
  private:
   instance &i_;
+  extreme_min_cut emc_;
 
   int n() { return i_.n(); }
   const vector<int> &adj(int v) { return i_.adj(v); }

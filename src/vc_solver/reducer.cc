@@ -3,6 +3,7 @@
 namespace vc_solver {
 void reducer::reduce() {
   reduce_degree1();
+  reduce_emc();
 }
 
 void reducer::reduce_degree1() {
@@ -40,5 +41,15 @@ void reducer::reduce_degree1() {
   }
 
   rep (v, n()) if (value(v) == 1) assert(degree(v) > 1);
+}
+
+void reducer::reduce_emc() {
+  i_.flow().maximize_ff();  // TODO: remove?
+  emc_.compute();
+  rep (v, n()) {
+    if (value(v) == 1 && emc_.value(v) != 1) {
+      i_.fix(v, emc_.value(v));
+    }
+  }
 }
 }  // namespace vc_solver

@@ -15,6 +15,12 @@ struct reducer_controller_degree1 {
   }
 };
 
+struct reducer_controller_emc {
+  static void reduce(reducer &r) {
+    r.reduce_emc();
+  }
+};
+
 struct reducer_controller_all {
   static void reduce(reducer &r) {
     r.reduce();
@@ -24,6 +30,7 @@ struct reducer_controller_all {
 
 typedef Types<
     reducer_controller_degree1,
+    reducer_controller_emc,
     reducer_controller_all
 > Testers;
 
