@@ -28,10 +28,10 @@ typedef Types<
 > Testers;
 
 template<typename T>
-class TestRunner : public testing::Test {};
-TYPED_TEST_CASE(TestRunner, Testers);
+class reducer_test : public testing::Test {};
+TYPED_TEST_CASE(reducer_test, Testers);
 
-TYPED_TEST(TestRunner, reduction_unweighted) {
+TYPED_TEST(reducer_test, reduction_unweighted) {
   const int max_v = 16, max_e = 100, num_instances = 1000;
 
   instance i;
