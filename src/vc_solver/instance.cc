@@ -56,6 +56,7 @@ void instance::init(const vector<pair<int, int>> &original_edges,
   // Prepare
   fixed_count_.assign(n_, 0);
   fixed_value_.resize(n_);
+  solution_weight_ = 0.0;
   graph_edit_history_.clear();
   {
     vector<pair<int, int>> new_edges(purified_es.size());

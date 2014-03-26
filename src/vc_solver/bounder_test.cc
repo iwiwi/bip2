@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "common.h"
 #include "bounder.h"
+#include "reducer.h"
 using namespace vc_solver;
 using testing::Types;
 
@@ -17,7 +18,7 @@ struct bounder_controller_flow {
 
 struct bounder_controller_clique {
   static double lower_bound(bounder &b) {
-    return b.lower_bound();
+    return b.lower_bound_clique();
   }
 };
 
@@ -42,6 +43,7 @@ TYPED_TEST(bounder_test, unweighted) {
   const int max_v = 16, max_e = 100, num_instances = 1000;
   instance i;
   bounder b(i);
+  reducer r(i);
   rep (t, num_instances) {
     vector<pair<int, int>> es;
     int num_vs = generate_random_graph(max_v, max_e, es);
@@ -49,6 +51,7 @@ TYPED_TEST(bounder_test, unweighted) {
     double ans = solve_vc_naive(es, ws);
 
     i.init(es, ws);
+    r.reduce_emc();
     ASSERT_GT(ans + EPS_DOUBLE, TypeParam::lower_bound(b));
   }
 }
@@ -57,6 +60,7 @@ TYPED_TEST(bounder_test, weighted_integer) {
   const int max_v = 16, max_e = 100, max_w = 5, num_instances = 1000;
   instance i;
   bounder b(i);
+  reducer r(i);
   rep (t, num_instances) {
     vector<pair<int, int>> es;
     int num_vs = generate_random_graph(max_v, max_e, es);
@@ -65,6 +69,7 @@ TYPED_TEST(bounder_test, weighted_integer) {
     double ans = solve_vc_naive(es, ws);
 
     i.init(es, ws);
+    r.reduce_emc();
     ASSERT_GT(ans + EPS_DOUBLE, TypeParam::lower_bound(b));
   }
 }

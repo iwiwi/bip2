@@ -99,7 +99,7 @@ int flow_network::matching_out(int i) {
     if (e.to == S) continue;
     const edge_t &r = rev(e);
     if (r.cap > 0) {
-      return e.to / 2;
+      return (e.to - 3) / 2;
     }
   }
   assert(false);

@@ -11,8 +11,23 @@ double bounder::lower_bound_flow() {
     return i_.solution_weight() + i_.flow().value() / 2.0;
   }
   else {
-    // TODO: Cycle-cover-based lower bound
-    return i_.solution_weight() + i_.flow().value() / 2.0;
+    // Cycle-cover-based lower bound
+    // The flow should be maximized & EMC reduction should be done
+    double lb = i_.solution_weight();
+    vector<bool> done(n());
+    rep (i, n()) {
+      if (value(i) != 1 || done[i]) continue;
+      int j = i, sz = 0;
+      do {
+        assert(!done[j]);
+        done[j] = true;
+        ++sz;
+        j = i_.flow().matching_out(j);
+      } while (j != i);
+      lb += (sz + 1) / 2;
+    }
+    assert(lb >= i_.solution_weight() + i_.flow().value() / 2.0);
+    return lb;
   }
 }
 
