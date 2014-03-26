@@ -22,6 +22,7 @@ class solver {
 
   // Branch-and-bound
   void dfs();
+  int select_branching_vertex();
 };
 }
 

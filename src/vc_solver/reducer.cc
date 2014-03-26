@@ -6,7 +6,7 @@ void reducer::reduce() {
 }
 
 void reducer::reduce_degree1() {
-  if (!i_.is_unweighted()) return;  // TODO;
+  if (!i_.is_unweighted()) return;  // TODO
 
   queue<int> que;
   rep (v, n()) {
