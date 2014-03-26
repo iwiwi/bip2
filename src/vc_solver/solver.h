@@ -1,5 +1,5 @@
-#ifndef VC_SOLVER_H_
-#define VC_SOLVER_H_
+#ifndef VC_SOLVER_SOLVER_H_
+#define VC_SOLVER_SOLVER_H_
 
 #include "common.h"
 #include "instance.h"

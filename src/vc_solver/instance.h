@@ -1,5 +1,5 @@
-#ifndef VC_INSTANCE_H_
-#define VC_INSTANCE_H_
+#ifndef VC_SOLVER_INSTANCE_H_
+#define VC_SOLVER_INSTANCE_H_
 
 #include "common.h"
 #include "flow_network.h"
@@ -63,4 +63,4 @@ class instance {
 };
 }  // namespace vc_solver
 
-#endif  // VC_INSTANCE_H_
+#endif  // VC_SOLVER_INSTANCE_H_

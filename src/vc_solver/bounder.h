@@ -1,3 +1,6 @@
+#ifndef VC_SOLVER_BOUNDER_H_
+#define VC_SOLVER_BOUNDER_H_
+
 #include "instance.h"
 
 namespace vc_solver {
@@ -19,3 +22,5 @@ class bounder {
   int degree(int v) { return i_.degree(v); }
 };
 }  // namespace vc_solver
+
+#endif  // VC_SOLVER_BOUNDER_H_
