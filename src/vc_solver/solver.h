@@ -4,11 +4,12 @@
 #include "common.h"
 #include "instance.h"
 #include "reducer.h"
+#include "bounder.h"
 
 namespace vc_solver {
 class solver {
  public:
-  solver() : i_(), r_(i_) {};
+  solver() : i_(), r_(i_), b_(i_) {};
 
   double solve(const vector<pair<int, int> > &edges,
                const vector<double> &weight, vector<int> &vc);
@@ -16,6 +17,7 @@ class solver {
  private:
   instance i_;
   reducer r_;
+  bounder b_;
 
   double best_solution_weight_;
   vector<int> best_solution_;
