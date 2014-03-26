@@ -8,8 +8,7 @@ double solver::solve(const vector<pair<int, int> >& edges,
   best_solution_weight_ = INF_DOUBLE;
   if (false && components());
   else {
-
-//    printf("%*sSOLVE: %d %d\n", depth_, "", n(), (int)edges.size());
+    printf("%*sSOLVE: %d %d\n", depth_, "", n(), (int)edges.size());
     r_.reduce_without_flow();
     i_.flow().maximize_dinic();
     dfs();
@@ -60,6 +59,8 @@ int solver::select_branching_vertex() {
 }
 
 bool solver::components() {
+  if (depth_ >= 3) return false;
+
   // Count the number of alive vertices
   int num_total_vs = 0;
   rep (v, n()) if (value(v) == 1 && degree(v) > 0) ++num_total_vs;

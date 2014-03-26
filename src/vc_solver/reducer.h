@@ -12,12 +12,15 @@ class reducer {
   void reduce();
   void reduce_without_flow();
 
-  void reduce_degree1();
   void reduce_emc();
+  void reduce_degree1();
+  void reduce_satellite();
 
  private:
   instance &i_;
   extreme_min_cut emc_;
+
+  bool modified_;
 
   int n() { return i_.n(); }
   const vector<int> &adj(int v) { return i_.adj(v); }
