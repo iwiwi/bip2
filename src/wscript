@@ -26,35 +26,14 @@ def build(bld):
     uselib       = 'common',
     use          = 'algorithm',
     includes     = '.')
-
-def hoge(bld):
-  bld.stlib(
-    source       = 'common.cc \
-                    jlog.cc \
-                    flow_network.cc \
-                    vc_solver.cc \
-                    vc_reducer.cc \
-                    bip2.cc \
-                    vc_solver_emc.cc \
-                    vc_solver_reducer.cc',
-    target       = 'algorithm',
-    includes     = '.')
-  bld.program(
-    features     = 'gtest',
-    source       = 'flow_network_test.cc \
-                    vc_solver_test.cc \
-                    vc_reducer_test.cc \
-                    bip2_test.cc',
-    target       = '../test',
-    uselib       = 'common',
-    use          = 'algorithm',
-    includes     = '.')
   bld.program(
     source       = 'cui/vc_main.cc',
     target       = '../vc',
     uselib       = 'common',
     use          = 'algorithm',
     includes     = '.')
+
+def hoge(bld):
   bld.program(
     source       = 'cui/oct_main.cc',
     target       = '../oct',
