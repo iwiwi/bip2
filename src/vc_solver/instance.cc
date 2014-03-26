@@ -34,7 +34,7 @@ void instance::init(const vector<pair<int, int>> &original_edges,
 
   // Construct graph
   adj_.assign(n_, vector<int>());
-  for (const auto &e : original_edges) {
+  for (const auto &e : purified_es) {
     adj_[original_to_new[e.first ]].push_back(original_to_new[e.second]);
     adj_[original_to_new[e.second]].push_back(original_to_new[e.first ]);
   }

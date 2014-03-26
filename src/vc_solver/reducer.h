@@ -10,6 +10,8 @@ class reducer {
   reducer(instance &i) : i_(i), emc_(i.flow()) {}
 
   void reduce();
+  void reduce_without_flow();
+
   void reduce_degree1();
   void reduce_emc();
 

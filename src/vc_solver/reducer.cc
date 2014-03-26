@@ -6,6 +6,10 @@ void reducer::reduce() {
   reduce_emc();
 }
 
+void reducer::reduce_without_flow() {
+  reduce_degree1();
+}
+
 void reducer::reduce_degree1() {
   if (!i_.is_unweighted()) return;  // TODO
 
@@ -40,7 +44,9 @@ void reducer::reduce_degree1() {
     }
   }
 
-  rep (v, n()) if (value(v) == 1) assert(degree(v) > 1);
+  rep (v, n()) if (value(v) == 1) {
+    assert(degree(v) > 1);
+  }
 }
 
 void reducer::reduce_emc() {
