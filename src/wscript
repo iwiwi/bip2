@@ -7,21 +7,25 @@ def build(bld):
   bld.stlib(
     source       = 'common.cc \
                     jlog.cc \
+                    vc_solver/flow_network.cc \
                     vc_solver/instance.cc \
+                    vc_solver/pre_reducer.cc \
                     vc_solver/reducer.cc \
                     vc_solver/bounder.cc \
                     vc_solver/extreme_min_cut.cc \
                     vc_solver/solver.cc \
-                    vc_solver/flow_network.cc',
+                    bip2.cc',
     target       = 'algorithm',
     includes     = '.')
   bld.program(
     features     = 'gtest',
     source       = 'vc_solver/flow_network_test.cc \
                     vc_solver/instance_test.cc \
+                    vc_solver/pre_reducer_test.cc \
                     vc_solver/reducer_test.cc \
                     vc_solver/bounder_test.cc \
-                    vc_solver/solver_test.cc',
+                    vc_solver/solver_test.cc \
+                    bip2_test.cc',
     target       = '../test',
     uselib       = 'common',
     use          = 'algorithm',
@@ -29,14 +33,6 @@ def build(bld):
   bld.program(
     source       = 'cui/vc_main.cc',
     target       = '../vc',
-    uselib       = 'common',
-    use          = 'algorithm',
-    includes     = '.')
-
-def hoge(bld):
-  bld.program(
-    source       = 'cui/oct_main.cc',
-    target       = '../oct',
     uselib       = 'common',
     use          = 'algorithm',
     includes     = '.')

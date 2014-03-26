@@ -1,5 +1,5 @@
 #include "common.h"
-#include "vc_solver/solver.h"
+#include "bip2.h"
 
 DEFINE_string(problem, "", "");
 
@@ -16,8 +16,7 @@ int main(int argc, char **argv) {
   vector<int> vc;
   double vc_weight;
   JLOG_PUT_BENCHMARK("time.solve_total") {
-    vc_solver::solver s;
-    vc_weight = s.solve(es, vector<double>(num_vs, 1), vc);
+    vc_weight = solve_vc(es, vector<double>(num_vs, 1), vc);
   }
   JLOG_PUT("solution", vc_weight);
   printf("%.f\n", vc_weight);
