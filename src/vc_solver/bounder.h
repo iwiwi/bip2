@@ -11,5 +11,11 @@ class bounder {
 
  private:
   instance &i_;
+
+  int n() { return i_.n(); }
+  const vector<int> &adj(int v) { return i_.adj(v); }
+  double weight(int v) { return i_.weight(v); }
+  int value(int v) { return i_.value(v); }
+  int degree(int v) { return i_.degree(v); }
 };
 }  // namespace vc_solver

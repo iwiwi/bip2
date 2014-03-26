@@ -199,6 +199,11 @@ double solve_vc_naive(vc_solver::instance &i, vector<int> &vc) {
   return i.solution(vc);
 }
 
+double solve_vc_naive(vc_solver::instance &i) {
+  vector<int> vc;
+  return solve_vc_naive(i, vc);
+}
+
 int generate_random_graph(int max_v, int max_e,
                            vector<pair<int, int>> &edges) {
   int num_v = 1 + rand() % max_v;

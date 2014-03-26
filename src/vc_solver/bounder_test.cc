@@ -15,6 +15,12 @@ struct bounder_controller_flow {
   }
 };
 
+struct bounder_controller_clique {
+  static double lower_bound(bounder &b) {
+    return b.lower_bound();
+  }
+};
+
 struct bounder_controller_all {
   static double lower_bound(bounder &b) {
     return b.lower_bound();
@@ -24,6 +30,7 @@ struct bounder_controller_all {
 
 typedef Types<
     bounder_controller_flow,
+    bounder_controller_clique,
     bounder_controller_all
 > Testers;
 

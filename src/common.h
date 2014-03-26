@@ -70,6 +70,7 @@ namespace vc_solver {
 class instance;
 }
 double solve_vc_naive(vc_solver::instance &i, vector<int> &vc);
+double solve_vc_naive(vc_solver::instance &i);
 
 int generate_random_graph(int max_v, int max_e, vector<pair<int, int>> &edges);
 
